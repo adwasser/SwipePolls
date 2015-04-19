@@ -21,15 +21,18 @@
     var source_url_1 = "https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg"
     var source_url_2 = "http://dealbreaker.com/uploads/2014/12/goat7.jpg"
     var source_url_3 = "http://www.grit.com/~/media/Images/GRT/Editorial/Articles/Magazine%20Articles/2010/01-01/Raising%20Goats%20for%20Fun%20and%20Profit/Grt-JF10-goats-kid-i.jpg"
+
+    var time = Date.now()
+
+    var dict_1 = {"url": source_url_1, "leftCount": 0, "rightCount": 0, "time": time}
+    var dict_2 = {"url": source_url_2, "leftCount": 0, "rightCount": 0, "time": time + 1}
+    var dict_3 = {"url": source_url_3, "leftCount": 0, "rightCount": 0, "time": time + 2}
     
-    var dict_1 = {"url": source_url_1, "leftCount": 0, "rightCount": 0}
-    var dict_2 = {"url": source_url_2, "leftCount": 0, "rightCount": 0}
-    var dict_3 = {"url": source_url_3, "leftCount": 0, "rightCount": 0}
+    db.set(null)
+    db.push(dict_1)
+    db.push(dict_2)
+    db.push(dict_3)
     
-    var dictionaries = [dict_1, dict_2, dict_3]
-    
-    db.set(dictionaries)    
-   
     })
   
     
