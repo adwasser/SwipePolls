@@ -41,7 +41,7 @@
 
 		$("button").click( function () {
 			source_url = $("#url-input").val()
-			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0}
+			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "time": Date.now()}
 			db.push(newDict)
 		})
 
