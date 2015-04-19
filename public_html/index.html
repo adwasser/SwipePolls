@@ -16,6 +16,7 @@
 
 
 <div id="results">
+<!--
 	<div class="poll-item">
 		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
 		<h2>Yes</h2>
@@ -23,36 +24,9 @@
 		<h2>No</h2>
 		<h3 class="no"></h3>
 	</div>
+-->
 
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
 
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
-
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
-
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
-
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
-
-	<div class="poll-item">
-		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
-		<h2>1st Goat</h2>
-	</div>
 </div>
 
 </body>
@@ -64,7 +38,28 @@
     var db = new Firebase(firebase_url)
     
 	jQuery( document ).ready( function() { 
-		
+		db.on("value",
+            function(snapshot) {
+                console.log("pre-empty")
+                $("#results").empty()
+                console.log("post-empty")                
+                var numPics = snapshot.val().length
+                console.log(numPics)                
+                for(i = 0; i < numPics; i++) {
+                    console.log("image: " + i)
+                    $("#results").append("<div class=\"poll-item\">")
+                    $("#results").append("<img src=\"" + snapshot.val()[i]["url"] + "\">")
+                    $("#results").append("<h2>Yes</h2>")
+                    $("#results").append("<h3 class=\"yes\">" + snapshot.val()[i]["rightCount"] + "</h3>")
+                    $("#results").append("<h2>No</h2>")
+                    $("#results").append("<h3 class=\"no\">" + snapshot.val()[i]["leftCount"] + "</h3>")                    
+                    $("#results").append("</div>")
+                }
+            },
+            function(errorObject) {
+                console.log("Read failed: " + errorObject.code)
+            }
+        )
 	})	
 </script>
 </html>
