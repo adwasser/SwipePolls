@@ -50,12 +50,34 @@
 			})
 		})
 
-		db.orderByChild("time").on("value",
+		db.orderByChild("index").on("value",
             function(snapshot) {
                 $("#results").empty()
                 snapshot.forEach(function(dictionary) {
                     $("#results").append("<div class=\"poll-item\"><img src=\"" + dictionary.child("url").val() + "\"><h2>Yes: " + dictionary.child('rightCount').val() + "</h2><h2>No: " + dictionary.child('leftCount').val() + " </h2></div>")
                 })
+                top5(function() {
+		            box1 = $(".graph-key").first()
+		            box1.css("background-image",  "url('" + urls_top5[0] + "')")
+		            box1.next().css("background-image",  "url('" + urls_top5[1] + "')")
+		            box1.next().next().css("background-image",  "url('" + urls_top5[2] + "')")
+		            box1.next().next().next().css("background-image",  "url('" + urls_top5[3] + "')")
+		            box1.next().next().next().next().css("background-image",  "url('" + urls_top5[4] + "')")
+
+		            max = getMaxOfArray(votes_top5)
+
+		            bar_heights = []
+		            for (var i=0; i<5;i++) {
+		            	bar_heights[i] = votes_top5[i]*360/max
+		            }
+
+		            bar1 = $(".graph-bar").first()
+		            bar1.css("height", bar_heights[0]).css("margin-top", 5+360- bar_heights[0] + "px")
+		            bar1.next().css("height", bar_heights[1]).css("margin-top", 5+360- bar_heights[1] + "px")
+		            bar1.next().next().css("height", bar_heights[2]).css("margin-top", 5+360- bar_heights[2] + "px")
+		            bar1.next().next().next().css("height", bar_heights[3]).css("margin-top", 5+360- bar_heights[3] + "px")
+		            bar1.next().next().next().next().css("height", bar_heights[4]).css("margin-top", 5+360- bar_heights[4] + "px")
+		        })
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
@@ -98,37 +120,10 @@
                 }
             )
         }
-        
-        // top5 test
-        top5(function() {
-            // console.log("urls length:" + urls_top5.length)
-            // for(i = 0; i < urls_top5.length; i++) {
-            //     console.log('url: ' + urls_top5[i])
-            //     console.log('votes: ' + votes_top5[i])
-            // }
-            box1 = $(".graph-key").first()
-            box1.css("background-image",  "url('" + urls_top5[0] + "')")
-            box1.next().css("background-image",  "url('" + urls_top5[1] + "')")
-            box1.next().next().css("background-image",  "url('" + urls_top5[2] + "')")
-            box1.next().next().next().css("background-image",  "url('" + urls_top5[3] + "')")
-            box1.next().next().next().next().css("background-image",  "url('" + urls_top5[4] + "')")
-
-            max = Math.max(votes_top5)
-
-            bar_heights = []
-            for (var i=0; i<5;i++) {
-            	bar_heights[i] = votes_top5[i]*360/max
-            }
-
-            bar1 = $(".graph-bar").first()
-            bar1.css("height", bar_heights[0]).css("margin-top", 5+360- bar_heights[0] + "px")
-            bar1.next().css("height", bar_heights[1]).css("margin-top", 5+360- bar_heights[1] + "px")
-            bar1.next().next().css("height", bar_heights[2]).css("margin-top", 5+360- bar_heights[2] + "px")
-            bar1.next().next().next().css("height", bar_heights[3]).css("margin-top", 5+360- bar_heights[3] + "px")
-            bar1.next().next().next().next().css("height", bar_heights[4]).css("margin-top", 5+360- bar_heights[4] + "px")
-        })
-        
-
     })	
+
+	function getMaxOfArray(numArray) {
+		return Math.max.apply(null, numArray);
+	}	
 </script>
 </html>
