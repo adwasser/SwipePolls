@@ -41,26 +41,22 @@
 
 		$("button").click( function () {
 			source_url = $("#url-input").val()
-			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0}
+			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "time": Date.now()}
 			db.push(newDict)
 		})
 
-		db.on("value",
+		db.orderByChild("time").on("value",
             function(snapshot) {
-                console.log("pre-empty")
                 $("#results").empty()
-                console.log("post-empty")                
-                var numPics = snapshot.val().length
-                console.log(numPics)                
-                for(i = 0; i < numPics; i++) {
-                    console.log("image: " + i)
-                    $("#results").append("<div class=\"poll-item\"><img src=\"" + snapshot.val()[i]["url"] + "\"><h2>Yes</h2><h3 class=\"yes\">" + snapshot.val()[i]["rightCount"] + "</h3><h2>No</h2><h3 class=\"no\">" + snapshot.val()[i]["leftCount"] + "</h3></div>")
-                }
+                snapshot.forEach(function(dictionary) {
+                    $("#results").append("<div class=\"poll-item\"><img src=\"" + dictionary.val()['url'] + "\"><h2>Yes</h2><h3 class=\"yes\">" + dictionary.val()['rightCount'] + "</h3><h2>No</h2><h3 class=\"no\">" + dictionary.val()['leftCount'] + "</h3></div>")
+                })
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
             }
         )
-	})	
+        
+    })	
 </script>
 </html>
