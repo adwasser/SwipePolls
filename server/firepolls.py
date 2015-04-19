@@ -5,14 +5,17 @@ app = Flask(__name__)
 
 @app.route('/<poll_name>')
 def getPoll(poll_name):
-	return render_template("client.html", poll_name=poll_name)
+	upper_poll_name = poll_name[0].upper() + poll_name[1:]
+	return render_template("client.html", poll_name=poll_name, poll_title=upper_poll_name)
 
 @app.route('/admin/<poll_name>')
 def adminPoll(poll_name):
-	return render_template("admin.html", poll_name=poll_name)
+	upper_poll_name = poll_name[0].upper() + poll_name[1:]
+	return render_template("admin.html", poll_name=poll_name, poll_title=upper_poll_name)
 
 if __name__ == '__main__':
         port = int(os.environ.get("PORT", 5000))
-        app.run(host='0.0.0.0', port=port)
-        # app.run()
+        # app.run(host='0.0.0.0', port=port)
+        app.debug=True
+        app.run()
 
