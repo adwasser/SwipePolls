@@ -46,83 +46,83 @@
                         image_class = "next"   
                     }
                     $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
+
+                    imgsLoaded()
                 }
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
             })
+	})
 
+    function imgsLoaded () {
+		console.log(WIDTH)
+		WIDTH_STR = (WIDTH).toString()
+		NEG_WIDTH_STR = (-1*WIDTH).toString()
 
-	console.log(WIDTH)
-	WIDTH_STR = (WIDTH).toString()
-	NEG_WIDTH_STR = (-1*WIDTH).toString()
-
-	function resetPics() {
-		$(".vis").css("left", 0).css("width", WIDTH)
-		$(".next").css("left", WIDTH).css("width", WIDTH)
-	}
-	
-	resetPics()
-
-	function nextPic (e) {
-		picIndex++
-		console.log(picIndex)
-		var showing = $(".vis")
-		if (picIndex == numPics - 1) {
-			next = $("img").first()
-			console.log("start over")
+		function resetPics() {
+			$(".vis").css("left", 0).css("width", WIDTH)
+			$(".next").css("left", WIDTH).css("width", WIDTH)
 		}
-		else {
-			next = $(".vis").next()
-		}
-		next.removeClass("hidden").addClass("vis")
-		showing.addClass("hidden").removeClass("vis")
-		// $(".vis").class("hidden")
-	}
-
-	function onSwipeLeft (e) {
-	 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
-	 	$(".next").animate({ "left": 0}, 500, nextPic)
-
-	 	//NO LIKE GOES HERE
-	}
-
-	function onSwipeRight (e) {
-		$(".next").css("left", 0)
-		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
-
-		//LIKE GOES HERE
-	}
-
-	function nextPic () {
-	 	old = $(".vis")
-	 	vis = $(".next")
-
-	 	if ($(".next").index() == 2) {
-			next = $("img").first()
-			console.log("start over")
-		}
-		else {
-			next = $(".next").next()
-		}
-		old.removeClass("vis").addClass("hidden")
-		vis.removeClass("next").addClass("vis")
-		next.removeClass("hidden").addClass("next")
-
+		
 		resetPics()
-	}
 
-	picDiv = document.getElementById("main-div")
+		function nextPic (e) {
+			picIndex++
+			console.log(picIndex)
+			var showing = $(".vis")
+			if (picIndex == numPics - 1) {
+				next = $("img").first()
+				console.log("start over")
+			}
+			else {
+				next = $(".vis").next()
+			}
+			next.removeClass("hidden").addClass("vis")
+			showing.addClass("hidden").removeClass("vis")
+			// $(".vis").class("hidden")
+		}
 
-	var picHammer = new Hammer(picDiv)
+		function onSwipeLeft (e) {
+		 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
+		 	$(".next").animate({ "left": 0}, 500, nextPic)
 
-	picHammer.on("swipeleft", onSwipeLeft)
-	picHammer.on("swiperight", onSwipeRight)
-	$("div").on('click', onSwipeLeft)
+		 	//NO LIKE GOES HERE
+		}
 
-	// $("div").swipeLeft(nextPic)
+		function onSwipeRight (e) {
+			$(".next").css("left", 0)
+			$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
 
-    })
+			//LIKE GOES HERE
+		}
+
+		function nextPic () {
+		 	old = $(".vis")
+		 	vis = $(".next")
+
+		 	if ($(".next").index() == 2) {
+				next = $("img").first()
+				console.log("start over")
+			}
+			else {
+				next = $(".next").next()
+			}
+			old.removeClass("vis").addClass("hidden")
+			vis.removeClass("next").addClass("vis")
+			next.removeClass("hidden").addClass("next")
+
+			resetPics()
+		}
+
+		picDiv = document.getElementById("main-div")
+
+		var picHammer = new Hammer(picDiv)
+
+		picHammer.on("swipeleft", onSwipeLeft)
+		picHammer.on("swiperight", onSwipeRight)
+		$("div").on('click', onSwipeLeft)
+    }
 
 </script>
 </body>
