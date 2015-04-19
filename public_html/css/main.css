@@ -47,9 +47,22 @@ img.next {
 	z-index: 100;
 }
 
-#picinput {
+#input-form {
 	width: 500px;
 	margin: auto;
+	margin-bottom: 15px;
+}
+
+#url-input {
+	width: 80%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+#submit-btn {
+	width: 12%;
+	margin-left: 0;
+	margin-right: 2%;
 }
 
 .poll-item {
