@@ -47,6 +47,11 @@ img.next {
 	z-index: 100;
 }
 
+#picinput {
+	width: 500px;
+	margin: auto;
+}
+
 .poll-item {
 	width: 16%;
 	margin-left: 2%;
