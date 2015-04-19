@@ -29,6 +29,9 @@
     var firebase_url = "https://luminous-inferno-8726.firebaseio.com/"
     var db = new Firebase(firebase_url)
 
+	picDiv = document.getElementById("main-div")
+    var picHammer = new Hammer(picDiv)
+
     
     // wait for jQuery to be ready
     jQuery( document ).ready( function() {
@@ -57,10 +60,6 @@
 		console.log(WIDTH)
 		WIDTH_STR = (WIDTH).toString()
 		NEG_WIDTH_STR = (-1*WIDTH).toString()
-		
-		picDiv = document.getElementById("main-div")
-
-		var picHammer = new Hammer(picDiv)
 
 		resetPics()
     }
@@ -74,8 +73,13 @@
 		$("div").on('click', onSwipeLeft)
 	}
 
+	function eventsOff() {
+		picHammer.off("swipeleft")
+		picHammer.off("swiperight")
+		$("div").off('click')
+	}
+
 	function nextPic (e) {
-		picIndex++
 		console.log(picIndex)
 		var showing = $(".vis")
 		if (picIndex == numPics - 1) {
@@ -91,9 +95,7 @@
 	}
 
 	function onSwipeLeft (e) {
-		picHammer.off("swipeleft")
-		picHammer.off("swiperight")
-		$("div").off('click')
+		eventsOff()
 
 	 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
 	 	$(".next").animate({ "left": 0}, 500, nextPic)
@@ -104,6 +106,8 @@
             function(snapshot) {
                 current_value = snapshot.child(picIndex).child('leftCount').val()
                 db.child(picIndex).child('leftCount').set(current_value + 1)
+                picIndex++
+                picIndex %= numPics
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
@@ -112,9 +116,7 @@
 	}
 
 	function onSwipeRight (e) {
-		picHammer.off("swipeleft")
-		picHammer.off("swiperight")
-		$("div").off('click')
+		eventsOff()
 		
 		$(".next").css("left", 0)
 		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
@@ -125,6 +127,8 @@
             function(snapshot) {
                 current_value = snapshot.child(picIndex).child('rightCount').val()
                 db.child(picIndex).child('rightCount').set(current_value + 1)
+                picIndex++
+                picIndex %= numPics
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
