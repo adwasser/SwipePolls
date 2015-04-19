@@ -72,14 +72,14 @@
 		$(".vis").css("left", 0).css("width", WIDTH)
 		$(".next").css("left", WIDTH).css("width", WIDTH)
 
-		picHammer.on("swipeleft", onSwipeLeft)
-		picHammer.on("swiperight", onSwipeRight)
+		picHammer.on("swipeleft panleft", onSwipeLeft)
+		picHammer.on("swiperight panright", onSwipeRight)
 		$("div").on('click', onSwipeLeft)
 	}
 
 	function eventsOff() {
-		picHammer.off("swipeleft")
-		picHammer.off("swiperight")
+		picHammer.off("swipeleft panleft")
+		picHammer.off("swiperight panright")
 		$("div").off('click')
 	}
 
