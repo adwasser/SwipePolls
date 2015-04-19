@@ -59,10 +59,13 @@
             }
         )
 
-        var urls = []
-        var votes = []
+        var urls_top5 = []
+        var votes_top5 = []
+        var urls_bottom = []
+        var votes_bottom = []
+        
         function top5(callback) {
-            // returns top 5 indices (or less if numPics < 5) by yes votes
+            
             db.orderByChild("rightCount").on("value",
                 function(snapshot) {
                     var i = 0
@@ -71,16 +74,20 @@
                         console.log("leq 5")
                         snapshot.forEach(function(data) {
                             console.log(data.child('url').val())
-                            urls.push(data.child('url').val())
-                            votes.push(data.child('rightCount').val())
+                            urls_top5.push(data.child('url').val())
+                            votes_top5.push(data.child('rightCount').val())
                         })       
                     }
                     else {
                         console.log(">5")
                         snapshot.forEach(function(data) {
                             if(i >= n - 5) {   
-                                urls.push(data.child('url').val())
-                                votes.push(data.child('rightCount').val())
+                                urls_top5.push(data.child('url').val())
+                                votes_top5.push(data.child('rightCount').val())
+                            }
+                            else {
+                                urls_bottom.push(data.child('url').val())
+                                votes_bottom.push(data.child('rightCount').val())
                             }
                         })
                     }
