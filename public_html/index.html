@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+	<title>Goats</title>
+</head>
+<body>
+
+<h1>Goats</h1>
+
+<div id="main-div">
+	<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg" class="vis">
+
+	<img src="http://dealbreaker.com/uploads/2014/12/goat7.jpg" class="hidden">
+
+	<img src="http://www.grit.com/~/media/Images/GRT/Editorial/Articles/Magazine%20Articles/2010/01-01/Raising%20Goats%20for%20Fun%20and%20Profit/Grt-JF10-goats-kid-i.jpg" class="hidden">
+</div>
+
+</body>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript">
+	// $("h1").text("zepto loaded!")
+
+	var pic = 0
+
+	function nextPic () {
+		// pic++
+		var i = $(".vis").index()
+		console.log(i)
+		var showing = $(".vis")
+		if ($(".vis").index() == 2) {
+			next = $("img").first()
+			console.log("start over")
+		}
+		else {
+			next = $(".vis").next()
+		}
+		next.removeClass("hidden").addClass("vis")
+		showing.addClass("hidden").removeClass("vis")
+		// $(".vis").class("hidden")
+	}
+
+	$("div").on('click', nextPic)
+	// $("div").swipeLeft(nextPic)
+
+	document.ontouchstart = function(e) { 
+    e.preventDefault(); 
+	}
+
+</script>
+</html>
