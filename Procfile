@@ -1,1 +1,1 @@
-web: python server/firePolls.py
+web: python server/firepolls.py
