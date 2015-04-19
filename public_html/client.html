@@ -11,7 +11,7 @@
 <div id="main-div">
 	<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg" class="vis">
 
-	<img src="http://dealbreaker.com/uploads/2014/12/goat7.jpg" class="hidden">
+	<img src="http://dealbreaker.com/uploads/2014/12/goat7.jpg" class="next">
 
 	<img src="http://www.grit.com/~/media/Images/GRT/Editorial/Articles/Magazine%20Articles/2010/01-01/Raising%20Goats%20for%20Fun%20and%20Profit/Grt-JF10-goats-kid-i.jpg" class="hidden">
 </div>
@@ -23,6 +23,13 @@
 	document.ontouchstart = function(e) { e.preventDefault(); }
 
 	var START_X = 0
+	var WIDTH = $("div").width()
+
+	console.log(WIDTH)
+	WIDTH_STR = (-1*WIDTH).toString()
+
+	$(".vis").css("left", 0).css("width", WIDTH)
+	$(".next").css("left", WIDTH).css("width", WIDTH)
 
 	var pic = 0
 
@@ -49,7 +56,8 @@
 	 //        x: START_X + 30
 	 //        // y: START_Y + ev.deltaY
 	 //    };
-	 	$("div").animate({ transform: "translateX(30px)"})
+	 	$(".vis").animate({ "left": WIDTH_STR})
+	 	$(".next").animate({ "left": 0})
 	    console.log("test")
 	}
 
