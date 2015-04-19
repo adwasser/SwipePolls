@@ -8,10 +8,10 @@
 
 <h1>Data Side</h1>
 <div id="input-form">
-	<form>
+	<div>
 		<input type="text" id="url-input" name="pic-input" value="Pic URL here" >
-		<input type="submit" id="submit-btn" value="Submit" />
-	</form>
+		<button type="submit" id="submit-btn" >Submit</button>
+	</div>
 </div>
 
 
@@ -65,6 +65,12 @@
     
 	jQuery( document ).ready( function() { 
 		
+
+		$("button").click( function () {
+			source_url = $("#url-input").val()
+			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0}
+			db.push(newDict)
+		})
 	})	
 </script>
 </html>
