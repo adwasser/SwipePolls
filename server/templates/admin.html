@@ -14,7 +14,7 @@
 	</div>
 </div>
 
-<div>
+<div id="twitter-div">
 	<textarea id="twitter-input"></textarea>
 	<button type="Submit" id="send-tweet">Tweet</button>
 </div>
@@ -43,15 +43,24 @@
 <script type="text/javascript">
 
 	var firebase_url = "https://luminous-inferno-8726.firebaseio.com/{{ poll_name }}"
+	var poll_name = "{{ poll_name }}"
     var db = new Firebase(firebase_url)
     
 	jQuery( document ).ready( function() { 
 
-		$("button").click( function () {
+		$("#submit-btn").click( function () {
 			source_url = $("#url-input").val()
 			db.once("value", function(snapshot) {
 				newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "index": snapshot.numChildren()}
 				db.push(newDict)
+			})
+		})
+
+		$("#send-tweet").click( function () {
+			$.ajax({
+				method: "GET",
+				url: "/tweet",
+				data: { text: $("#twitter-input").val() , poll_name: poll_name }
 			})
 		})
 

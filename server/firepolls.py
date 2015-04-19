@@ -27,10 +27,10 @@ def tweet():
 
         if request.method == 'POST':
                 text = request.form.get('text', '')
-                poll_name = request.form.get('poll name', '')
+                poll_name = request.form.get('poll_name', '')
         else:
                 text = request.args.get('text', '')
-                poll_name = request.args.get('poll name', '')
+                poll_name = request.args.get('poll_name', '')
         
         api = twitter.Api(consumer_key=consumer_key, 
                           consumer_secret=consumer_secret, 

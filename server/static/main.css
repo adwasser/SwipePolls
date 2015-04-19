@@ -130,3 +130,13 @@ img.next {
 .poll-item h2 {
 	text-align: center;
 }
+
+#twitter-div {
+	margin: auto;
+	width: 450px;
+	margin-bottom: 15px;
+}
+
+#twitter-div textarea {
+	width: 350px;
+}
