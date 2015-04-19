@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1>Data Side</h1>
+<h1>Input Poll Items</h1>
 <div id="input-form">
 	<div>
 		<input type="text" id="url-input" name="pic-input" value="Pic URL here" >
@@ -70,6 +70,7 @@
 		            for (var i=0; i<5;i++) {
 		            	bar_heights[i] = votes_top5[i]*360/max
 		            }
+		            console.log(votes_top5)
 
 		            bar1 = $(".graph-bar").first()
 		            bar1.css("height", bar_heights[0]).css("margin-top", 5+360- bar_heights[0] + "px")
@@ -95,6 +96,10 @@
                 function(snapshot) {
                     var i = 0
                     var n = snapshot.numChildren()
+                    urls_top5 = []
+			        votes_top5 = []
+			        urls_bottom = []
+			        votes_bottom = []
                     if(n <= 5) {
                         console.log("leq 5")
                         snapshot.forEach(function(data) {
@@ -106,19 +111,29 @@
                     else {
                         console.log(">5")
                         snapshot.forEach(function(data) {
-                            if(i >= n - 5) {   
+                            if(i >= n - 5) {
+               //              	if (votes_top5.length >= 5) {
+               //              		var urls_top5 = []
+							        // var votes_top5 = []
+							        // var urls_bottom = []
+							        // var votes_bottom = []
+               //              	}
                                 urls_top5.push(data.child('url').val())
                                 votes_top5.push(data.child('rightCount').val())
+                                console.log(data.child('rightCount').val())
                             }
                             else {
                                 urls_bottom.push(data.child('url').val())
                                 votes_bottom.push(data.child('rightCount').val())
                             }
+                            i++
                         })
                     }
-                callback()
+                setTimeout(callback(), 500)
                 }
             )
+
+		
         }
     })	
 

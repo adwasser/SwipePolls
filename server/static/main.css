@@ -69,10 +69,10 @@ img.next {
 #graph-area {
 	width: 84%;
 	height: 500px;
-	border-top: 30px solid black;
-	border-bottom: 30px solid black;
-	border-left: 50px solid black;
-	border-right: 50px solid black;
+	border-top: 30px solid #1F395C;
+	border-bottom: 30px solid #1F395C;
+	border-left: 50px solid #1F395C;
+	border-right: 50px solid #1F395C;
 	padding: 2%;
 	margin: auto;
 	margin-bottom: 20px;
