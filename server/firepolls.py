@@ -34,11 +34,10 @@ def tweet():
                           consumer_secret=consumer_secret, 
                           access_token_key=access_token, 
                           access_token_secret=access_secret) 
-        url = "http:\/\/firepolls.herokuapp.com\/" + poll_name
-        status = api.PostUpdate()
+        url = "http://firepolls.herokuapp.com/" + poll_name
+        status = api.PostUpdate(text + '\n' + url)
  
 if __name__ == '__main__':
         port = int(os.environ.get("PORT", 5000))
-        app.run(host='0.0.0.0', port=port)
-        # app.run()
-
+        # app.run(host='0.0.0.0', port=port)
+        app.run()
