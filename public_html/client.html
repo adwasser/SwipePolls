@@ -21,99 +21,45 @@
 <script type="text/javascript">
 	// Prevent scrolling
 	document.ontouchstart = function(e) { e.preventDefault(); }
-    
-    // wait for jQuery to be ready
-    jQuery( document ).ready( function() {
-
-	var START_X = 0
+    var START_X = 0
 	var WIDTH = $("div").width()
 	var picIndex = 0
 	var numPics = 0
 
     var firebase_url = "https://luminous-inferno-8726.firebaseio.com/"
     var db = new Firebase(firebase_url)
-    
-		//SETUP IMGS
-    db.once("value", 
-            function(snapshot) {
-                numPics = snapshot.val().length
-                for(i = 0; i < numPics; i++) {
-                    var image_class = "hidden"
-                    if(i == 0) {
-                        image_class = "vis"
-                    }
-                    else if(i == 1) {
-                        image_class = "next"   
-                    }
-                    $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
 
-                    imgsLoaded()
+    
+    // wait for jQuery to be ready
+    jQuery( document ).ready( function() {
+    
+    //SETUP IMGS
+    db.once("value", function(snapshot) {
+            numPics = snapshot.val().length
+            for(i = 0; i < numPics; i++) {
+                var image_class = "hidden"
+                if(i == 0) {
+                    image_class = "vis"
                 }
-            },
-            function(errorObject) {
-                console.log("Read failed: " + errorObject.code)
-            })
+                else if(i == 1) {
+                    image_class = "next"   
+                }
+                $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
+
+                imgsLoaded()
+            }
+        },
+        function(errorObject) {
+            console.log("Read failed: " + errorObject.code)
+        })
 	})
 
     function imgsLoaded () {
 		console.log(WIDTH)
 		WIDTH_STR = (WIDTH).toString()
 		NEG_WIDTH_STR = (-1*WIDTH).toString()
-
-		function resetPics() {
-			$(".vis").css("left", 0).css("width", WIDTH)
-			$(".next").css("left", WIDTH).css("width", WIDTH)
-		}
 		
 		resetPics()
-
-		function nextPic (e) {
-			picIndex++
-			console.log(picIndex)
-			var showing = $(".vis")
-			if (picIndex == numPics - 1) {
-				next = $("img").first()
-				console.log("start over")
-			}
-			else {
-				next = $(".vis").next()
-			}
-			next.removeClass("hidden").addClass("vis")
-			showing.addClass("hidden").removeClass("vis")
-			// $(".vis").class("hidden")
-		}
-
-		function onSwipeLeft (e) {
-		 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
-		 	$(".next").animate({ "left": 0}, 500, nextPic)
-
-		 	//NO LIKE GOES HERE
-		}
-
-		function onSwipeRight (e) {
-			$(".next").css("left", 0)
-			$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
-
-			//LIKE GOES HERE
-		}
-
-		function nextPic () {
-		 	old = $(".vis")
-		 	vis = $(".next")
-
-		 	if ($(".next").index() == 2) {
-				next = $("img").first()
-				console.log("start over")
-			}
-			else {
-				next = $(".next").next()
-			}
-			old.removeClass("vis").addClass("hidden")
-			vis.removeClass("next").addClass("vis")
-			next.removeClass("hidden").addClass("next")
-
-			resetPics()
-		}
 
 		picDiv = document.getElementById("main-div")
 
@@ -123,6 +69,65 @@
 		picHammer.on("swiperight", onSwipeRight)
 		$("div").on('click', onSwipeLeft)
     }
+
+	function resetPics() {
+		$(".vis").css("left", 0).css("width", WIDTH)
+		$(".next").css("left", WIDTH).css("width", WIDTH)
+	}
+
+	function nextPic (e) {
+		picIndex++
+		console.log(picIndex)
+		var showing = $(".vis")
+		if (picIndex == numPics - 1) {
+			next = $("img").first()
+			console.log("start over")
+		}
+		else {
+			next = $(".vis").next()
+		}
+		next.removeClass("hidden").addClass("vis")
+		showing.addClass("hidden").removeClass("vis")
+		// $(".vis").class("hidden")
+	}
+
+	function onSwipeLeft (e) {
+	 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
+	 	$(".next").animate({ "left": 0}, 500, nextPic)
+
+	 	//NO LIKE GOES HERE
+	 	var pic_dict = db.child(picIndex)
+        var current_value = pic_dict["leftCount"]
+        pic_dict.update({"leftCount": current_value++})
+	}
+
+	function onSwipeRight (e) {
+		$(".next").css("left", 0)
+		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
+
+		//LIKE GOES HERE
+		var pic_dict = db.child(picIndex)
+        var current_value = pic_dict["rightCount"]
+        pic_dict.update({"rightCount": current_value++})
+	}
+
+	function nextPic () {
+	 	old = $(".vis")
+	 	vis = $(".next")
+
+	 	if ($(".next").index() == 2) {
+			next = $("img").first()
+			console.log("start over")
+		}
+		else {
+			next = $(".next").next()
+		}
+		old.removeClass("vis").addClass("hidden")
+		vis.removeClass("next").addClass("vis")
+		next.removeClass("hidden").addClass("next")
+
+		resetPics()
+	}
 
 </script>
 </body>
