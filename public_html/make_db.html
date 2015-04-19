@@ -1,0 +1,37 @@
+!DOCTYPE html>
+<html>
+<head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='js/jquery-2.1.3.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <title>Goats</title>
+</head>
+    
+<body>
+
+<script type="text/javascript">
+    
+    jQuery( document ).ready( function() {
+        
+    // initialize firebase db
+    var firebase_url = "https://luminous-inferno-8726.firebaseio.com/"
+    var db = new Firebase(firebase_url)
+    
+    // source image urls for testing
+    var source_url_1 = "https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg"
+    var source_url_2 = "http://dealbreaker.com/uploads/2014/12/goat7.jpg"
+    var source_url_3 = "http://www.grit.com/~/media/Images/GRT/Editorial/Articles/Magazine%20Articles/2010/01-01/Raising%20Goats%20for%20Fun%20and%20Profit/Grt-JF10-goats-kid-i.jpg"
+    
+    var dict_1 = {"url": source_url_1, "leftCount": 0, "rightCount": 0}
+    var dict_2 = {"url": source_url_2, "leftCcount": 0, "rightCount": 0}
+    var dict_3 = {"url": source_url_3, "leftCount": 0, "rightCount": 0}
+    
+    var dictionaries = [dict_1, dict_2, dict_3]
+    
+    db.set(dictionaries)    
+   
+    })
+  
+    
+</script>
+    
