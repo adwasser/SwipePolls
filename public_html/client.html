@@ -19,7 +19,8 @@
 </body>
 <script type="text/javascript" src="js/zepto.min.js"></script>
 <script type="text/javascript">
-	// $("h1").text("zepto loaded!")
+	// Prevent scrolling
+	document.ontouchstart = function(e) { e.preventDefault(); }
 
 	var pic = 0
 
@@ -40,12 +41,18 @@
 		// $(".vis").class("hidden")
 	}
 
-	$("div").on('click', nextPic)
+	function like () {
+
+	}
+
+	function nolike () {
+
+	}
+
+	// $("div").on('click', nextPic)
 	// $("div").swipeLeft(nextPic)
 
-	document.ontouchstart = function(e) { 
-    e.preventDefault(); 
-	}
+
 
 </script>
 </html>
