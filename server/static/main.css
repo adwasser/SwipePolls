@@ -41,11 +41,34 @@ img.next {
 
 #under {
 	position: absolute;
-	top: 600px;
+	top: 800px;
 	width: 100%;
-	height: 500px;
-	background-color: black;
+	height: 1000px;
+	background-color: #60246B;
 	z-index: 100;
+}
+
+.under-half {
+	float: left;
+	width: 50%;
+	margin: 0;
+}
+
+.under-half h3 {
+	font-size: 40pt;
+	color: #FFFFFF;
+	padding-top: 50px;
+}
+
+#thanks {
+	position: absolute;
+	width: 100%;
+	top: 300px;
+}
+
+#thanks h3 {
+	text-align: center;
+	font-size: 26pt;
 }
 
 #input-form {
