@@ -54,13 +54,7 @@
                 console.log(numPics)                
                 for(i = 0; i < numPics; i++) {
                     console.log("image: " + i)
-                    $("#results").append("<div class=\"poll-item\">")
-                    $("#results").append("<img src=\"" + snapshot.val()[i]["url"] + "\">")
-                    $("#results").append("<h2>Yes</h2>")
-                    $("#results").append("<h3 class=\"yes\">" + snapshot.val()[i]["rightCount"] + "</h3>")
-                    $("#results").append("<h2>No</h2>")
-                    $("#results").append("<h3 class=\"no\">" + snapshot.val()[i]["leftCount"] + "</h3>")                    
-                    $("#results").append("</div>")
+                    $("#results").append("<div class=\"poll-item\"><img src=\"" + snapshot.val()[i]["url"] + "\"><h2>Yes</h2><h3 class=\"yes\">" + snapshot.val()[i]["rightCount"] + "</h3><h2>No</h2><h3 class=\"no\">" + snapshot.val()[i]["leftCount"] + "</h3></div>")
                 }
             },
             function(errorObject) {
