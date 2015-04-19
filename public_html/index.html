@@ -41,15 +41,17 @@
 
 		$("button").click( function () {
 			source_url = $("#url-input").val()
-			newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "time": Date.now()}
-			db.push(newDict)
+			db.once("value", function(snapshot) {
+				newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "time": Date.now()}
+				db.push(newDict)
+			})
 		})
 
 		db.orderByChild("time").on("value",
             function(snapshot) {
                 $("#results").empty()
                 snapshot.forEach(function(dictionary) {
-                    $("#results").append("<div class=\"poll-item\"><img src=\"" + dictionary.val()['url'] + "\"><h2>Yes</h2><h3 class=\"yes\">" + dictionary.val()['rightCount'] + "</h3><h2>No</h2><h3 class=\"no\">" + dictionary.val()['leftCount'] + "</h3></div>")
+                    $("#results").append("<div class=\"poll-item\"><img src=\"" + dictionary.val()['url'] + "\"><h2>Yes: " + dictionary.val()['rightCount'] + "</h2><h2>No: " + dictionary.val()['leftCount'] + " </h2></div>")
                 })
             },
             function(errorObject) {

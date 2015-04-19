@@ -93,20 +93,20 @@
 		$("div").off('click')
 	}
 
-	function nextPic (e) {
-		console.log(picIndex)
-		var showing = $(".vis")
-		if (picIndex == numPics - 1) {
-			next = $("img").first()
-			console.log("start over")
-		}
-		else {
-			next = $(".vis").next()
-		}
-		next.removeClass("hidden").addClass("vis")
-		showing.addClass("hidden").removeClass("vis")
-		// $(".vis").class("hidden")
-	}
+	// function nextPic (e) {
+	// 	var showing = $(".vis")
+	// 	var nextPic = showing.next()
+	// 	if (picIndex == numPics - 1) {
+	// 		next = $("img").first()
+	// 		console.log("start over")
+	// 	}
+	// 	else {
+	// 		next = $(".vis").next()
+	// 	}
+	// 	next.removeClass("hidden").addClass("vis")
+	// 	showing.addClass("hidden").removeClass("vis")
+	// 	// $(".vis").class("hidden")
+	// }
 
 	function onSwipeLeft (e) {
 		eventsOff()
@@ -164,7 +164,8 @@
 
 	function nextPic () {
 	 	old = $(".vis")
-	 	vis = $(".next")
+	 	next_vis = $(".next")
+	 	next_next = next_vis.next()
 
 	 	if ($(".next").index() == 2) {
 			next = $("img").first()
@@ -174,8 +175,8 @@
 			next = $(".next").next()
 		}
 		old.removeClass("vis").addClass("hidden")
-		vis.removeClass("next").addClass("vis")
-		next.removeClass("hidden").addClass("next")
+		next_vis.removeClass("next").addClass("vis")
+		next_next.removeClass("hidden").addClass("next")
 
 		resetPics()
 	}
