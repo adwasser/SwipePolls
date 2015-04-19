@@ -46,3 +46,19 @@ img.next {
 	background-color: black;
 	z-index: 100;
 }
+
+.poll-item {
+	width: 16%;
+	margin-left: 2%;
+	margin-right: 2%;
+	float: left;
+}
+
+.poll-item img {
+	width: 100%;
+	height: 70%;
+}
+
+.poll-item h2 {
+	text-align: center;
+}
