@@ -46,6 +46,7 @@
                 }
                 $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
             }
+            imgsLoaded()
         },
         function(errorObject) {
             console.log("Read failed: " + errorObject.code)
@@ -97,14 +98,13 @@
         var current_value = 0
         db.once("value", 
             function(snapshot) {
-                current_value = snapshot.val()[picIndex]['leftCount']   
+                current_value = snapshot.child(picIndex).child('leftCount').val()
+                db.child(picIndex).child('leftCount').set(current_value + 1)
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
             }
         )
-	 	var pic_dict = db.child(picIndex)
-        pic_dict.update({"leftCount": current_value++})
 	}
 
 	function onSwipeRight (e) {
@@ -116,14 +116,12 @@
         db.once("value", 
             function(snapshot) {
                 current_value = snapshot.child(picIndex).child('rightCount').val()
-                console.log(current_value)
+                db.child(picIndex).child('rightCount').set(current_value + 1)
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
             }
         )
-	 	var pic_dict = db.child(picIndex)
-        pic_dict.update({"rightCount": current_value++})
 	}
 
 	function nextPic () {
