@@ -58,7 +58,47 @@
                 console.log("Read failed: " + errorObject.code)
             }
         )
+
+        var urls = []
+        var votes = []
+        function top5(callback) {
+            // returns top 5 indices (or less if numPics < 5) by yes votes
+            db.orderByChild("rightCount").on("value",
+                function(snapshot) {
+                    var i = 0
+                    var n = snapshot.numChildren()
+                    if(n <= 5) {
+                        console.log("leq 5")
+                        snapshot.forEach(function(data) {
+                            console.log(data.child('url').val())
+                            urls.push(data.child('url').val())
+                            votes.push(data.child('rightCount').val())
+                        })       
+                    }
+                    else {
+                        console.log(">5")
+                        snapshot.forEach(function(data) {
+                            if(i >= n - 5) {   
+                                urls.push(data.child('url').val())
+                                votes.push(data.child('rightCount').val())
+                            }
+                        })
+                    }
+                callback()
+                }
+            )
+        }
         
+        // top5 test
+        top5(function() {
+            console.log("urls length:" + urls.length)
+            for(i = 0; i < urls.length; i++) {
+                console.log('url: ' + urls[i])
+                console.log('votes: ' + votes[i])
+            }
+        })
+        
+
     })	
 </script>
 </html>
