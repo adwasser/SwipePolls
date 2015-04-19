@@ -11,7 +11,7 @@
 <div id="main-div">
 	<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg" class="vis">
 
-	<img src="http://dealbreaker.com/uploads/2014/12/goat7.jpg" class="hidden">
+	<img src="http://dealbreaker.com/uploads/2014/12/goat7.jpg" class="next">
 
 	<img src="http://www.grit.com/~/media/Images/GRT/Editorial/Articles/Magazine%20Articles/2010/01-01/Raising%20Goats%20for%20Fun%20and%20Profit/Grt-JF10-goats-kid-i.jpg" class="hidden">
 </div>
@@ -23,7 +23,18 @@
 	document.ontouchstart = function(e) { e.preventDefault(); }
 
 	var START_X = 0
+	var WIDTH = $("div").width()
 
+	console.log(WIDTH)
+	WIDTH_STR = (WIDTH).toString()
+	NEG_WIDTH_STR = (-1*WIDTH).toString()
+
+	function resetPics() {
+		$(".vis").css("left", 0).css("width", WIDTH)
+		$(".next").css("left", WIDTH).css("width", WIDTH)
+	}
+	
+	resetPics()
 	var pic = 0
 
 	function nextPic (e) {
@@ -49,12 +60,31 @@
 	 //        x: START_X + 30
 	 //        // y: START_Y + ev.deltaY
 	 //    };
-	 	$("div").animate({ transform: "translateX(30px)"})
-	    console.log("test")
+	 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
+	 	$(".next").animate({ "left": 0}, 500, nextPic)
 	}
 
 	function onSwipeRight (e) {
+		$(".next").css("left", 0)
+		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
+	}
 
+	function nextPic () {
+	 	old = $(".vis")
+	 	vis = $(".next")
+
+	 	if ($(".next").index() == 2) {
+			next = $("img").first()
+			console.log("start over")
+		}
+		else {
+			next = $(".next").next()
+		}
+		old.removeClass("vis").addClass("hidden")
+		vis.removeClass("next").addClass("vis")
+		next.removeClass("hidden").addClass("next")
+
+		resetPics()
 	}
 
 	function like () {
@@ -68,8 +98,8 @@
 
 	var picHammer = new Hammer(picDiv)
 
-	picHammer.on("panleft", onSwipeLeft)
-	picHammer.on("panright", onSwipeRight)
+	picHammer.on("swipeleft", onSwipeLeft)
+	picHammer.on("swiperight", onSwipeRight)
 	$("div").on('click', onSwipeLeft)
 
 	// $("div").swipeLeft(nextPic)
