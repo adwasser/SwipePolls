@@ -58,7 +58,54 @@
                 console.log("Read failed: " + errorObject.code)
             }
         )
+
+        var urls_top5 = []
+        var votes_top5 = []
+        var urls_bottom = []
+        var votes_bottom = []
         
+        function top5(callback) {
+            
+            db.orderByChild("rightCount").on("value",
+                function(snapshot) {
+                    var i = 0
+                    var n = snapshot.numChildren()
+                    if(n <= 5) {
+                        console.log("leq 5")
+                        snapshot.forEach(function(data) {
+                            console.log(data.child('url').val())
+                            urls_top5.push(data.child('url').val())
+                            votes_top5.push(data.child('rightCount').val())
+                        })       
+                    }
+                    else {
+                        console.log(">5")
+                        snapshot.forEach(function(data) {
+                            if(i >= n - 5) {   
+                                urls_top5.push(data.child('url').val())
+                                votes_top5.push(data.child('rightCount').val())
+                            }
+                            else {
+                                urls_bottom.push(data.child('url').val())
+                                votes_bottom.push(data.child('rightCount').val())
+                            }
+                        })
+                    }
+                callback()
+                }
+            )
+        }
+        
+        // top5 test
+        top5(function() {
+            console.log("urls length:" + urls.length)
+            for(i = 0; i < urls.length; i++) {
+                console.log('url: ' + urls[i])
+                console.log('votes: ' + votes[i])
+            }
+        })
+        
+
     })	
 </script>
 </html>
