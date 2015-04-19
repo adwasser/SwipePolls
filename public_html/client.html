@@ -24,8 +24,8 @@
     var START_X = 0
 	var WIDTH = $("div").width()
 	var picIndex = 0
-	var numPics = 0
-
+//	var numPics = 0
+    
     var firebase_url = "https://luminous-inferno-8726.firebaseio.com/"
     var db = new Firebase(firebase_url)
 
@@ -36,26 +36,40 @@
     // wait for jQuery to be ready
     jQuery( document ).ready( function() {
     
+    // read number of images
+//    db.once("value",
+//        function(snapshot) {
+//            numPics = snapshot.val().length    
+//        },
+//        function(errorObject) {
+//            console.log("Read failed: " + errorObject.code)
+//        }
+//    )
+//    
     //SETUP IMGS
-    db.once("value", function(snapshot) {
-            numPics = snapshot.val().length
-            for(i = 0; i < numPics; i++) {
+    db.orderByChild("index").once("value",
+        function(snapshot) {
+            $("#results").empty()
+            var count = 0
+            snapshot.forEach(function(dictionary) {
                 var image_class = "hidden"
-                if(i == 0) {
+                if(count == 0) {
                     image_class = "vis"
                 }
-                else if(i == 1) {
+                else if(count == 1) {
                     image_class = "next"   
                 }
-                $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
-            }
+                $("#main-div").append("<img src=\"" + dictionary.val()["url"] + "\" class=\"" + image_class + "\">")                
+                count++
+            })
             imgsLoaded()
         },
         function(errorObject) {
             console.log("Read failed: " + errorObject.code)
-        })
+        }
+    )
 	})
-
+    
     function imgsLoaded () {
 		console.log(WIDTH)
 		WIDTH_STR = (WIDTH).toString()
@@ -104,10 +118,16 @@
         var current_value = 0
         db.once("value", 
             function(snapshot) {
-                current_value = snapshot.child(picIndex).child('leftCount').val()
-                db.child(picIndex).child('leftCount').set(current_value + 1)
+                snapshot.forEach(function(dictionary) {
+                    if(dictionary.child('index').val() == picIndex) {
+                        var key = dictionary.key()
+                        console.log("key: " + key)
+                        current_value = dictionary.child('leftCount').val()
+                        db.child(key).child('leftCount').set(current_value + 1)
+                    }
+                })
                 picIndex++
-                picIndex %= numPics
+                picIndex %= snapshot.numChildren()
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
@@ -125,10 +145,16 @@
         var current_value = 0
         db.once("value", 
             function(snapshot) {
-                current_value = snapshot.child(picIndex).child('rightCount').val()
-                db.child(picIndex).child('rightCount').set(current_value + 1)
+                snapshot.forEach(function(dictionary) {
+                    if(dictionary.child('index').val() == picIndex) {
+                        var key = dictionary.key()
+                        console.log("key: " + key)
+                        current_value = dictionary.child('rightCount').val()
+                        db.child(key).child('rightCount').set(current_value + 1)
+                    }
+                })
                 picIndex++
-                picIndex %= numPics
+                picIndex %= snapshot.numChildren()
             },
             function(errorObject) {
                 console.log("Read failed: " + errorObject.code)
