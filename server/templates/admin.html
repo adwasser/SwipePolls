@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/main.css" />
+	<title>Data Goats</title>
+</head>
+<body>
+
+<h1>Data Side</h1>
+<div id="input-form">
+	<div>
+		<input type="text" id="url-input" name="pic-input" value="Pic URL here" >
+		<button type="submit" id="submit-btn" >Submit</button>
+	</div>
+</div>
+
+
+<div id="results">
+<!--
+	<div class="poll-item">
+		<img src="https://www.sciencenews.org/sites/default/files/main/blogposts/sci_Goats_Go_Inspecting_wikimedia_commons.jpg">
+		<h2>Yes</h2>
+		<h3 class="yes"></h3>
+		<h2>No</h2>
+		<h3 class="no"></h3>
+	</div>
+-->
+
+
+</div>
+
+</body>
+<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+<script type="text/javascript" src="/static/jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+
+	var firebase_url = "https://luminous-inferno-8726.firebaseio.com/{{ poll_name }}"
+    var db = new Firebase(firebase_url)
+    
+	jQuery( document ).ready( function() { 
+
+		$("button").click( function () {
+			source_url = $("#url-input").val()
+			db.once("value", function(snapshot) {
+				newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "index": snapshot.numChildren()}
+				db.push(newDict)
+			})
+		})
+
+		db.orderByChild("time").on("value",
+            function(snapshot) {
+                $("#results").empty()
+                snapshot.forEach(function(dictionary) {
+                    $("#results").append("<div class=\"poll-item\"><img src=\"" + dictionary.val()['url'] + "\"><h2>Yes: " + dictionary.val()['rightCount'] + "</h2><h2>No: " + dictionary.val()['leftCount'] + " </h2></div>")
+                })
+            },
+            function(errorObject) {
+                console.log("Read failed: " + errorObject.code)
+            }
+        )
+        
+    })	
+</script>
+</html>

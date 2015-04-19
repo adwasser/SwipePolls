@@ -42,7 +42,7 @@
 		$("button").click( function () {
 			source_url = $("#url-input").val()
 			db.once("value", function(snapshot) {
-				newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "time": Date.now()}
+				newDict = {"url": source_url, "leftCount": 0, "rightCount": 0, "index": snapshot.numChildren()}
 				db.push(newDict)
 			})
 		})
