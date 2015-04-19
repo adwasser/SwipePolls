@@ -24,6 +24,12 @@
 
 	var START_X = 0
 	var WIDTH = $("div").width()
+	var picIndex = 0
+	var numPics = 0
+
+	function setupImgs () {
+		//SETUP IMGS
+	}
 
 	console.log(WIDTH)
 	WIDTH_STR = (WIDTH).toString()
@@ -39,10 +45,10 @@
 
 	function nextPic (e) {
 		// pic++
-		var i = $(".vis").index()
-		console.log(i)
+		picIndex++
+		console.log(picIndex)
 		var showing = $(".vis")
-		if ($(".vis").index() == 2) {
+		if (picIndex == numPics - 1) {
 			next = $("img").first()
 			console.log("start over")
 		}
@@ -55,18 +61,17 @@
 	}
 
 	function onSwipeLeft (e) {
-		// picDiv.translate = {
-	 //        // x: START_X + e.deltaX
-	 //        x: START_X + 30
-	 //        // y: START_Y + ev.deltaY
-	 //    };
 	 	$(".vis").animate({ "left": NEG_WIDTH_STR}, 500)
 	 	$(".next").animate({ "left": 0}, 500, nextPic)
+
+	 	//NO LIKE GOES HERE
 	}
 
 	function onSwipeRight (e) {
 		$(".next").css("left", 0)
 		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
+
+		//LIKE GOES HERE
 	}
 
 	function nextPic () {
@@ -87,13 +92,6 @@
 		resetPics()
 	}
 
-	function like () {
-
-	}
-
-	function nolike () {
-
-	}
 	picDiv = document.getElementById("main-div")
 
 	var picHammer = new Hammer(picDiv)
