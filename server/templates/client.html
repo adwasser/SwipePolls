@@ -36,16 +36,6 @@
     // wait for jQuery to be ready
     jQuery( document ).ready( function() {
     
-    // read number of images
-//    db.once("value",
-//        function(snapshot) {
-//            numPics = snapshot.val().length    
-//        },
-//        function(errorObject) {
-//            console.log("Read failed: " + errorObject.code)
-//        }
-//    )
-//    
     //SETUP IMGS
     db.orderByChild("index").once("value",
         function(snapshot) {
