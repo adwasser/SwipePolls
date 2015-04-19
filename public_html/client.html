@@ -32,24 +32,25 @@
     var firebase_url = "https://luminous-inferno-8726.firebaseio.com/"
     var db = new Firebase(firebase_url)
     
-		//SETUP IMGS
+    //SETUP IMGS
     db.once("value", 
-            function(snapshot) {
-                numPics = snapshot.val().length
-                for(i = 0; i < numPics; i++) {
-                    var image_class = "hidden"
-                    if(i == 0) {
-                        image_class = "vis"
-                    }
-                    else if(i == 1) {
-                        image_class = "next"   
-                    }
-                    $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
+        function(snapshot) {
+            numPics = snapshot.val().length
+            for(i = 0; i < numPics; i++) {
+                var image_class = "hidden"
+                if(i == 0) {
+                    image_class = "vis"
                 }
-            },
-            function(errorObject) {
-                console.log("Read failed: " + errorObject.code)
-            })
+                else if(i == 1) {
+                    image_class = "next"   
+                }
+                $("#main-div").append("<img src=\"" + snapshot.val()[i]["url"] + "\" class=\"" + image_class + "\">")
+            }
+        },
+        function(errorObject) {
+            console.log("Read failed: " + errorObject.code)
+        }
+    )
 
 
 	console.log(WIDTH)
@@ -86,6 +87,9 @@
 	 	$(".next").animate({ "left": 0}, 500, nextPic)
 
 	 	//NO LIKE GOES HERE
+        var pic_dict = db.child(picIndex)
+        var current_value = pic_dict["leftCount"]
+        pic_dict.update({"leftCount": current_value++})
 	}
 
 	function onSwipeRight (e) {
@@ -93,6 +97,9 @@
 		$(".vis").animate({ "left": WIDTH_STR}, 500, nextPic)
 
 		//LIKE GOES HERE
+        var pic_dict = db.child(picIndex)
+        var current_value = pic_dict["rightCount"]
+        pic_dict.update({"rightCount": current_value++})
 	}
 
 	function nextPic () {
